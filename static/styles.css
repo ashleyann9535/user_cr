@@ -1,0 +1,9 @@
+body{
+    margin: 20px;
+}
+
+
+.display_block{
+    display: block;
+    margin-top: 10px;
+}
