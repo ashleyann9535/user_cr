@@ -16,10 +16,8 @@ def create_user():
         'lname': request.form['lname'],
         'email': request.form['email']
     }
-
 #pass form data into save class method in users
     User.save(data)
-
     return redirect('/users')
 
 
@@ -34,6 +32,38 @@ def read_all():
     users = User.get_all()
     print(users)
     return render_template('read_all.html', all_users = users)
+
+@app.route('/view/<int:id>')
+def view(id):
+    user = User.view_one(id)
+    return render_template('view.html', id = id, user = user)
+
+
+#Update
+@app.route('/edit/<int:id>')
+def edit(id):
+    user = User.view_one(id)
+    return render_template('edit.html', id = id, user = user)
+
+@app.route('/update/<int:id>', methods = ['POST'])
+def update(id):
+    data = {
+        'id': id,
+        'first_name': request.form['fname'],
+        'last_name': request.form['lname'],
+        'email': request.form['email']
+    }
+    User.update(data)
+
+    num = data['id']
+    return redirect(f'/view/{num}')
+
+
+#Delete
+@app.route('/delete/<int:id>')
+def delete_user(id):
+    User.delete_user(id)
+    return redirect('/users')
 
 
 if __name__ == "__main__":
